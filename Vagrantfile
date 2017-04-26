@@ -8,13 +8,18 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     config.vm.box = "ubuntu/xenial64"
 
     # Mount shared folder using NFS
-    config.vm.synced_folder ".", "/vagrant",
+    config.vm.synced_folder "..", "/vagrant",
         id: "core",
         :nfs => true,
         :mount_options => ['nolock,vers=3,udp,noatime']
 
     # Do some network configuration
-    config.vm.network "private_network", ip: "192.168.100.100"
+    config.vm.network "private_network", ip: "192.168.10.100"
+    
+    # Create a forwarded port mapping which allows access to a specific port
+    # within the machine from a port on the host machine. In the example below,
+    # accessing "localhost:8080" will access port 80 on the guest machine.
+    config.vm.network "forwarded_port", guest: 9000, host: 9000
 
     # Assign a quarter of host memory and all available CPU's to VM
     # Depending on host OS this has to be done differently.

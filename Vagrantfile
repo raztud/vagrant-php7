@@ -22,17 +22,21 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         host = RbConfig::CONFIG['host_os']
 
         if host =~ /darwin/
-            cpus = `sysctl -n hw.ncpu`.to_i
-            mem = `sysctl -n hw.memsize`.to_i / 1024 / 1024 / 4
+            #cpus = `sysctl -n hw.ncpu`.to_i
+            #mem = `sysctl -n hw.memsize`.to_i / 1024 / 1024 / 4
+            cpus = 1
+            mem = 1024
 
         elsif host =~ /linux/
-            cpus = `nproc`.to_i
-            mem = `grep 'MemTotal' /proc/meminfo | sed -e 's/MemTotal://' -e 's/ kB//'`.to_i / 1024 / 4
+            #cpus = `nproc`.to_i
+            #mem = `grep 'MemTotal' /proc/meminfo | sed -e 's/MemTotal://' -e 's/ kB//'`.to_i / 1024 / 4
+            cpus = 1
+            mem = 1024
 
         # Windows...
         else
-            cpus = 4
-            mem = 2048
+            cpus = 1
+            mem = 1024
         end
 
         vb.customize ["modifyvm", :id, "--memory", mem]
